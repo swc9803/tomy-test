@@ -1,11 +1,10 @@
 <template>
   <div class="container">
-    <p>test</p>
     <div v-for="item in lists" :key="item.id" class="wrapper">
       <p>이름: {{ item.name }}</p>
       <p>전화번호: {{ item.main_contact }}</p>
     </div>
-    <button @click="pushItem">show item</button>
+    <button @click="pushItem">push item</button>
   </div>
 </template>
 

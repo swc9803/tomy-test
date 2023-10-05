@@ -22,7 +22,8 @@
     "eslint-plugin-prettier": "^5.0.0",
     "nuxt": "^3.7.3",
     "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vue-i18n": "^9.5.0"
   },
   "dependencies": {
     "@nuxtjs/composition-api": "^0.33.1",

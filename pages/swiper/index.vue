@@ -6,11 +6,19 @@
         clickable: true,
       }"
       :direction="'vertical'"
+      @swiper="onSwiper"
     >
-      <SwiperSlide v-for="(section, index) in sections" :key="section.id">
-        <div class="wrapper">
-          {{ index }}
-        </div>
+      <SwiperSlide>
+        <div class="wrapper">TommyFuture</div>
+      </SwiperSlide>
+      <SwiperSlide>
+        <div class="wrapper">TommyFuture</div>
+      </SwiperSlide>
+      <SwiperSlide>
+        <div class="wrapper">TommyFuture</div>
+      </SwiperSlide>
+      <SwiperSlide>
+        <div class="wrapper">TommyFuture</div>
       </SwiperSlide>
     </Swiper>
   </div>
@@ -24,12 +32,13 @@ import "swiper/css/pagination";
 
 const modules = [Pagination];
 
-const sections = [
-  { title: "title1" },
-  { title: "title2" },
-  { title: "title3" },
-  { title: "title4" },
-];
+const slider = ref();
+const onSwiper = (swiper) => {
+  slider.value = swiper;
+};
+onMounted(() => {
+  slider.value.slideTo(1);
+});
 </script>
 
 <style lang="scss" scoped>

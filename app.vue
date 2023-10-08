@@ -15,9 +15,13 @@
 </template>
 
 <script setup>
-onMounted(() => {
+const onResize = () => {
   const vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty("--vh", `${vh}px`);
+};
+onMounted(() => {
+  onResize();
+  window.addEventListener("resize", onResize);
 });
 </script>
 

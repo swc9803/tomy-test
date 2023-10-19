@@ -1,89 +1,53 @@
 <template>
-  <div class="container">
-    <button @click="checkPosition">check</button>
-    <section ref="sectionRef">
-      1
-      <div ref="boxRef" class="box"></div>
-    </section>
-    <section ref="sectionRef2">2</section>
-    <section ref="sectionRef3">3</section>
-    <section ref="sectionRef4">4</section>
-    <section ref="sectionRef5">5</section>
+  <div>
+    <svg
+      width="250"
+      height="250"
+      viewBox="0 0 250 250"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="125"
+        cy="125"
+        r="124"
+        stroke="#000"
+        stroke-width="2"
+        :stroke-dasharray="circleLength"
+        :style="{ strokeDashoffset: `${dashOffset}px` }"
+      />
+    </svg>
   </div>
 </template>
 
 <script setup>
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
+const circleLength = ref(785); // 2 파이 r(124)
+const dashOffset = ref(circleLength.value);
 
-const sectionRef = ref();
-const sectionRef2 = ref();
-const sectionRef3 = ref();
-const sectionRef4 = ref();
-const sectionRef5 = ref();
-const boxRef = ref();
+const onScroll = () => {
+  const height =
+    document.documentElement.scrollHeight -
+    document.documentElement.clientHeight;
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const scrolled = (scrollTop / height) * 100;
 
-const checkPosition = () => {
-  console.log(sectionRef.value.offsetTop);
-  console.log(sectionRef2.value.offsetTop);
-  console.log(sectionRef3.value.offsetTop);
-  console.log(sectionRef4.value.offsetTop);
-  console.log(sectionRef5.value.offsetTop);
-  console.log(`${sectionRef.value.clientHeight} height`);
-  scrollTo({
-    top: sectionRef2.value.offsetTop,
-    left: 0,
-    behavior: "smooth",
-  });
+  dashOffset.value = circleLength.value * (1 - scrolled / 100);
 };
 
 onMounted(() => {
-  const ani1 = gsap.timeline();
-  ScrollTrigger.create({
-    animation: ani1,
-    trigger: sectionRef.value,
-    start: "top",
-    end: "bottom",
-    markers: true,
-    pin: true,
-    scrub: 1,
-  });
-  ani1.to(boxRef.value, {
-    rotate: 360,
-  });
+  window.addEventListener("scroll", onScroll);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", onScroll);
 });
 </script>
 
 <style lang="scss" scoped>
-section {
-  height: 100vh;
-  &:nth-child(1) {
-    background: rgb(235, 214, 214);
+div {
+  height: 200vh;
+  svg {
+    position: fixed;
+    top: 0;
   }
-  &:nth-child(2) {
-    background: rgb(165, 119, 119);
-  }
-  &:nth-child(3) {
-    background: rgb(141, 121, 121);
-  }
-  &:nth-child(4) {
-    background: rgb(70, 63, 63);
-  }
-  &:nth-child(5) {
-    background: rgb(49, 45, 45);
-  }
-}
-.box {
-  width: 100px;
-  height: 100px;
-  background: blue;
-}
-button {
-  position: fixed;
-  top: 45%;
-  right: 0;
-  background: yellow;
-  z-index: 5;
 }
 </style>

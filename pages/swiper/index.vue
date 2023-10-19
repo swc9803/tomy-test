@@ -1,13 +1,14 @@
 <template>
-  <div class="container">
+  <div v-show="!loading" class="container">
     <Swiper
       :modules="modules"
       :pagination="{
         clickable: true,
       }"
-      :direction="'vertical'"
+      direction="vertical"
       @swiper="onSwiper"
     >
+      <!-- :direction="`vertical`" -->
       <SwiperSlide>
         <div class="wrapper">TommyFuture</div>
       </SwiperSlide>
@@ -32,11 +33,14 @@ import "swiper/css/pagination";
 
 const modules = [Pagination];
 
+const loading = ref(true);
+
 const slider = ref();
 const onSwiper = (swiper) => {
   slider.value = swiper;
 };
 onMounted(() => {
+  loading.value = false;
   slider.value.slideTo(1);
 });
 </script>

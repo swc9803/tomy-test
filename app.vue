@@ -30,6 +30,7 @@ onMounted(() => {
   background: yellow;
 }
 nav {
+  position: absolute;
   display: flex;
   gap: 20px;
 }

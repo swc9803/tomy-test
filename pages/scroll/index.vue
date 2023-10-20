@@ -4,7 +4,6 @@
     <section>section2</section>
     <section>section3</section>
     <div>
-      <div ref="circleRef" class="circle" />
       <svg
         ref="progressIndicatorRef"
         width="80"
@@ -24,7 +23,7 @@
         />
       </svg>
 
-      <div ref="circleRef2" class="cursor">
+      <div ref="circleRef" class="cursor">
         <div ref="waveRef" class="wave" />
       </div>
     </div>
@@ -32,8 +31,9 @@
 </template>
 
 <script setup>
+import gsap from "gsap";
+
 const circleRef = ref();
-const circleRef2 = ref();
 const waveRef = ref();
 const progressIndicatorRef = ref();
 
@@ -43,8 +43,6 @@ const dashOffset = ref(circleLength.value);
 const onMouseMove = (e) => {
   circleRef.value.style.top = `${e.clientY}px`;
   circleRef.value.style.left = `${e.clientX}px`;
-  circleRef2.value.style.top = `${e.clientY}px`;
-  circleRef2.value.style.left = `${e.clientX}px`;
   progressIndicatorRef.value.style.top = `${e.clientY}px`;
   progressIndicatorRef.value.style.left = `${e.clientX}px`;
 };
@@ -56,7 +54,11 @@ const onScroll = () => {
   const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
   waveRef.value.style.top = `${100 - (scrollTop / height) * 100}%`;
-  dashOffset.value = circleLength.value * (1 - scrollTop / height);
+  gsap.to(dashOffset, {
+    value: circleLength.value * (1 - scrollTop / height),
+    duration: 0.3,
+    ease: "power1.inout",
+  });
 };
 
 onMounted(() => {
@@ -93,10 +95,9 @@ div {
     position: fixed;
     width: 60px;
     height: 60px;
-    transform: translate(-150%, -50%);
-    border: 2px solid #fff;
+    transform: translate(-50%, -50%);
+    border: 2px solid #ffffff;
     border-radius: 50%;
-    background: transparent;
     overflow: hidden;
     .wave {
       position: absolute;
@@ -105,10 +106,6 @@ div {
       width: 200%;
       height: 200%;
       border-radius: 38%;
-      // background: linear-gradient(
-      //   rgba(252, 231, 79, 1) 0%,
-      //   rgba(60, 89, 167, 1) 100%
-      // );
       background: rgb(187, 187, 187);
       transition: all 0.3s ease;
       animation: wave 4s linear infinite;
@@ -131,21 +128,11 @@ div {
       }
     }
   }
-
-  .circle {
-    position: fixed;
-    width: 60px;
-    height: 60px;
-    transform: translate(-550%, -50%);
-    background: white;
-    border-radius: 50%;
-  }
-
   svg {
     position: fixed;
     top: -80px;
     left: -80px;
-    transform: translate(-425%, -50%) rotate(-90deg);
+    transform: translate(-50%, -50%) rotate(-90deg);
   }
 }
 </style>
